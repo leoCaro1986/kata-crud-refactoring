@@ -9,10 +9,12 @@ public class TodoListEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private  String nameList;
-    @OneToMany(cascade = CascadeType.ALL,  orphanRemoval = true)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "groupListId")
     private Set<Todo> todos;
-    private boolean completed;
 
 
     public TodoListEntity() {
@@ -30,9 +32,5 @@ public class TodoListEntity {
 
     public void setTodos(Set<Todo> todos) { this.todos = todos; }
 
-    public boolean isCompleted() { return completed; }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
 }

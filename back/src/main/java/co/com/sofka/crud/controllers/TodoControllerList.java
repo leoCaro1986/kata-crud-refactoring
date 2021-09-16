@@ -1,48 +1,47 @@
 package co.com.sofka.crud.controllers;
 
-import co.com.sofka.crud.entities.Todo;
+import co.com.sofka.crud.dto.TodoListDTO;
 import co.com.sofka.crud.entities.TodoListEntity;
-import co.com.sofka.crud.services.TodoService;
 import co.com.sofka.crud.services.TodoServiceList;
-import org.hibernate.mapping.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class TodoControllerList {
 
     @Autowired
     private TodoServiceList listservice;
 
-    @GetMapping(value = "api/todos")
-    public Iterable<TodoListEntity> list(){
+    @GetMapping(value = "api/todoslist")
+    public Iterable<TodoListDTO> list(){
         return listservice.list();
     }
 
-    @PostMapping(value = "api/todo")
-    public TodoListEntity save(@RequestBody TodoListEntity todoList){
-        return listservice.save(todoList);
+    @PostMapping(value = "api/createlist")
+    public TodoListDTO save(@RequestBody TodoListDTO todoListDTO){
+
+        return listservice.save(todoListDTO);
     }
 
-    @PutMapping(value = "api/todo")
-    public TodoListEntity update(@RequestBody TodoListEntity todoList){
-        if(todoList.getId() != null){
-            return listservice.save(todoList);
+    @PutMapping(value = "api/updateList")
+    public TodoListDTO update(@RequestBody TodoListDTO todoListDTO){
+        if(todoListDTO.getId() != null){
+            return listservice.save(todoListDTO);
         }
         throw new RuntimeException("No existe el id para actualziar");
     }
 
-    @DeleteMapping(value = "api/{id}/todo")
+    @DeleteMapping(value = "api/{id}/deleteList")
     public void delete(@PathVariable("id")Long id){
         listservice.delete(id);
     }
 
-    @GetMapping(value = "api/{id}/todo")
-    public TodoListEntity get(@PathVariable("id") Long id){
+    @GetMapping(value = "api/{id}/todoListid")
+    public TodoListDTO get(@PathVariable("id") Long id){
+
         return listservice.get(id);
     }
-
-
 
 
 }

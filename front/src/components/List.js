@@ -1,17 +1,20 @@
 import React, { useContext, useEffect } from 'react';
-import { Store, HOST_API } from '../App';
-import Form from './Form';
+import Store from '../utils/Store';
 
-export const List = () => {
-  const { dispatch, state: { todo } } = useContext(Store);
-  const currentList = todo.list;
+const HOST_API = "http://localhost:8080/api";
+
+const List = ({TodoListId}) => {
+  const {dispatch, state:{todo}} = useContext(Store);
+    const currentList = todo.list.filter(todo => {
+      return todo.groupListId === TodoListId;
+    });
 
   useEffect(() => {
     fetch(HOST_API + "/todos")
       .then(response => response.json())
       .then((list) => {
-        dispatch({ type: "update-list", list });
-      });
+        dispatch({ type: "update-list", list })
+      })
   }, [dispatch]);
 
 
@@ -19,19 +22,20 @@ export const List = () => {
     fetch(HOST_API + "/" + id + "/todo", {
       method: "DELETE"
     }).then((list) => {
-      dispatch({ type: "delete-item", id });
-    });
+      dispatch({ type: "delete-item", id })
+    })
   };
 
   const onEdit = (todo) => {
-    dispatch({ type: "edit-item", item: todo });
+    dispatch({ type: "edit-item", item: todo })
   };
 
   const onChange = (event, todo) => {
     const request = {
       name: todo.name,
       id: todo.id,
-      completed: event.target.checked
+      completed: event.target.checked,
+      groupListId: TodoListId
     };
     fetch(HOST_API + "/todo", {
       method: "PUT",
@@ -47,24 +51,32 @@ export const List = () => {
   };
 
   const decorationDone = {
-    //Tacha o subraya las tareas
     textDecoration: 'line-through'
   };
   return <div>
-    
+    <table >
+      <thead >
+        <tr>
+          <td>ID</td>
+          <td>Tarea</td>
+          <td>¿Completado?</td>
+          <td>Eliminar Tarea</td>
+          <td>Editar Tarea</td>
+        </tr>
+      </thead>
+      <tbody>
         {currentList.map((todo) => {
-          return ( <div>{todo.id} {todo.name} 
-          <input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input>
-          <button type="button" className="btn btn-danger" onClick={() => onDelete(todo.id)}>Eliminar</button>
-          <button type="button" className="btn btn-success" onClick={() => onEdit(todo)}>Editar</button>
-          <Form />
-          </div> )
-            
-           
-            
-  
+          return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
+            <td>{todo.id}</td>
+            <td>{todo.name}</td>
+            <td><input  defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
+            <td><button onClick={() => onDelete(todo.id)} >Eliminar</button></td>
+            <td><button onClick={() => onEdit(todo)} >Editar</button></td>
+          </tr>
         })}
-      
-    
-  </div>;
-};
+      </tbody>
+    </table>
+  </div>
+}
+
+export default List;

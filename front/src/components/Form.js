@@ -1,8 +1,10 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Store, HOST_API } from '../App';
+import Store from '../utils/Store';
 
+const HOST_API = "http://localhost:8080/api";
 
-  const Form = () => {
+const Form = ({ TodoListId }) => {
+
   const formRef = useRef(null);
   const { dispatch, state: { todo } } = useContext(Store);
   const item = todo.item;
@@ -14,7 +16,8 @@ import { Store, HOST_API } from '../App';
     const request = {
       name: state.name,
       id: null,
-      completed: false
+      completed: false,
+      groupListId: TodoListId
     };
 
 
@@ -31,7 +34,7 @@ import { Store, HOST_API } from '../App';
         setState({ name: "" });
         formRef.current.reset();
       });
-  };
+  }
 
   const onEdit = (event) => {
     event.preventDefault();
@@ -39,7 +42,8 @@ import { Store, HOST_API } from '../App';
     const request = {
       name: state.name,
       id: item.id,
-      isCompleted: item.isCompleted
+      isCompleted: item.isCompleted,
+      groupListId: TodoListId
     };
 
 
@@ -56,20 +60,21 @@ import { Store, HOST_API } from '../App';
         setState({ name: "" });
         formRef.current.reset();
       });
-  };
+  }
 
-  return <form classN="form-floating" ref={formRef}>
+  return <form ref={formRef}>
+    <div className="input-group mb-3">
+      <span className="input-group-text">Nombre de la Tarea</span>
+      <input type="text" name="name"  defaultValue={item.name}
+        onChange={(event) => {
+          setState({ ...state, name: event.target.value })
+        }}  ></input>
+          {item.id && <button onClick={onEdit}  >Actualizar</button>}
+    {!item.id && <button onClick={onAdd}  >Crear</button>}</div>
+    
 
-    <input
-      type="text"
-      name="name"
-      placeholder="¿Qué piensas hacer hoy?"
-      defaultValue={item.name}
-      onChange={(event) => {
-        setState({ ...state, name: event.target.value });
-      }}></input>
-    {item.id && <button type="button" className="btn btn-primary" onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button type="button" className="btn btn-primary" onClick={onAdd}>Crear</button>}
-  </form>;
-};
+  </form>
+}
+
+
 export default Form;

@@ -1,24 +1,31 @@
 import React, { createContext } from 'react';
 import { Form } from './components/Form';
 import { List } from './components/List';
-import { StoreProvider } from './util/StoreProvider';
-import  FormListTodo  from './components/FormListTodo';
+import { StoreProvider } from './StoreProvider';
+import FormCategory  from './components/FormCategory';
+import ListCategory  from './components/ListCategory';
 
-export const HOST_API = "http://localhost:8080/api";
+
+
 export const initialState = {
-  todo: { list: [], item: {} }
+  todo: { list: [], item: {} },
+  todoList: { list: [], item: {} },
 };
 export const Store = createContext(initialState)
 
 
-
-
 function App() {
   return <StoreProvider>
-    <h3>To-Do List</h3>
-    <FormListTodo/>
-    
-    <List />
+    <h3>Lista tus tareas por categorias, editalas y eliminalas cuando las completes...</h3>
+    <div className="container">
+      <br />
+      <div className="row border rounded">
+        <h1>Ingresa una lista de TodoList</h1>
+        <FormCategory />
+      </div>
+      <br />
+    </div>
+    <ListCategory/>
   </StoreProvider>
 }
 

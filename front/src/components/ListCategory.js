@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Store from '../util/Store';
-import Todo from './components/Todo';
-import TodoForm from '../components/Form';
+import List from '../components/List';
+import Form from '../components/Form';
 
 const HOST_API = "http://localhost:8080/api";
 
@@ -25,16 +25,22 @@ const ListCategory = () => {
         })
     };
 
-    return <div className=" container text-center">
+    return <div className=" container text-center ">
         {currentTodoList.map((elemento) => {
-            return <div key={elemento.id} >
+            return <div className="border my-5 " key={elemento.id} >
                 <div >
-                    <span >Nombre de la TodoList</span>
-                    <input disabled={true} value={elemento.nameList} />
-                    <button onClick={() => onDelete(elemento.id)} >Eliminar</button>
+                    <span >Categoria</span>
+                    <input 
+                    className="form-control "  
+                    disabled={true} 
+                    value={elemento.nameList} />
+                    <button
+                    className="btn btn-outline-danger" 
+                    onClick={() => onDelete(elemento.id)} >Eliminar
+                    </button>
                 </div>
-                <TodoForm TodoListId={elemento.id} />
-                <Todo TodoListId={elemento.id} />
+                <Form TodoListId={elemento.id} />
+                <List TodoListId={elemento.id} />
             </div>
         })}
     </div>

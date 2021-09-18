@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import Store from '../utils/Store';
+import Store from '../util/Store';
 
 const HOST_API = "http://localhost:8080/api";
 
@@ -59,9 +59,7 @@ const List = ({TodoListId}) => {
         <tr>
           <td>ID</td>
           <td>Tarea</td>
-          <td>¿Completado?</td>
-          <td>Eliminar Tarea</td>
-          <td>Editar Tarea</td>
+          <td>Estado</td>
         </tr>
       </thead>
       <tbody>
@@ -69,9 +67,9 @@ const List = ({TodoListId}) => {
           return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
             <td>{todo.id}</td>
             <td>{todo.name}</td>
-            <td><input  defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
-            <td><button onClick={() => onDelete(todo.id)} >Eliminar</button></td>
-            <td><button onClick={() => onEdit(todo)} >Editar</button></td>
+            <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
+            <td><button className="btn btn-outline-danger" onClick={() => onDelete(todo.id)} >Eliminar</button></td>
+            <td><button className="btn btn-outline-info" onClick={() => onEdit(todo)} >Editar</button></td>
           </tr>
         })}
       </tbody>

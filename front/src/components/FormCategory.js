@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import Store from '../utils/Store';
+import Store from '../util/Store';
 
 const HOST_API = "http://localhost:8080/api";
 
@@ -34,12 +34,12 @@ const FormCategory = () => {
             className="form-control"
             type="text"
             name="name"
-            placeholder="Agrega una nueva lista de tareas"
+            placeholder="Nombre de la categoria"
             onChange={(event) => {
                 setState({ ...state, nameList: event.target.value })
             }}  ></input>
         <br />
-            <button onClick={onAdd} >Crear nueva lista de tareas</button>
+            <button className="btn btn-outline-success" onClick={onAdd} >Crear</button>
         <br />
     </form>
 }

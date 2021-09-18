@@ -1,17 +1,17 @@
 import React, { createContext } from 'react';
-import { Form } from './components/Form';
-import { List } from './components/List';
-import { StoreProvider } from './StoreProvider';
+// import { Form } from './components/Form';
+// import { List } from './components/List';
+import { StoreProvider } from './util/Store';
 import FormCategory  from './components/FormCategory';
 import ListCategory  from './components/ListCategory';
 
 
 
-export const initialState = {
-  todo: { list: [], item: {} },
-  todoList: { list: [], item: {} },
-};
-export const Store = createContext(initialState)
+// export const initialState = {
+//   todo: { list: [], item: {} },
+//   todoList: { list: [], item: {} },
+// };
+// export const Store = createContext(initialState)
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
     <div className="container">
       <br />
       <div className="row border rounded">
-        <h1>Ingresa una lista de TodoList</h1>
+        <h1>Crea una Categoria</h1>
         <FormCategory />
       </div>
       <br />

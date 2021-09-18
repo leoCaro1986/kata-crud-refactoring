@@ -1,11 +1,11 @@
 import React, { useContext, useRef, useState } from 'react';
-import Store from '../utils/Store';
+import Store from '../util/Store';
 
 const HOST_API = "http://localhost:8080/api";
 
 const Form = ({ TodoListId }) => {
 
-  const formRef = useRef(null);
+  const formReference = useRef(null);
   const { dispatch, state: { todo } } = useContext(Store);
   const item = todo.item;
   const [state, setState] = useState(item);
@@ -32,7 +32,7 @@ const Form = ({ TodoListId }) => {
       .then((todo) => {
         dispatch({ type: "add-item", item: todo });
         setState({ name: "" });
-        formRef.current.reset();
+        formReference.current.reset();
       });
   }
 
@@ -58,19 +58,19 @@ const Form = ({ TodoListId }) => {
       .then((todo) => {
         dispatch({ type: "update-item", item: todo });
         setState({ name: "" });
-        formRef.current.reset();
+        formReference.current.reset();
       });
   }
 
-  return <form ref={formRef}>
-    <div className="input-group mb-3">
-      <span className="input-group-text">Nombre de la Tarea</span>
-      <input type="text" name="name"  defaultValue={item.name}
+  return <form className="form-control" ref={formReference}>
+    <div className=" container my-2 input-group mb-3" >
+      <span className="input-group-text">Que deseas hacer?</span>
+      <input className="form-control" type="text" name="name"  defaultValue={item.name}
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
         }}  ></input>
-          {item.id && <button onClick={onEdit}  >Actualizar</button>}
-    {!item.id && <button onClick={onAdd}  >Crear</button>}</div>
+          {item.id && <button className="btn btn-outline-secondary" onClick={onEdit}  >Actualizar</button>}
+    {!item.id && <button className="btn btn-outline-success" onClick={onAdd}  >Crear</button>}</div>
     
 
   </form>
